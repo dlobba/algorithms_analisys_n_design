@@ -1,6 +1,6 @@
 import sys, copy
 
-def define_lcs_matrix (lenX, lenY):
+def define_lgcs_matrix (lenX, lenY):
     return [[0 for i in range(lenY)] for j in range(lenX)]
 
 def draw_matrix (matrix):
@@ -12,7 +12,7 @@ def draw_matrix (matrix):
 
     return out
 
-def lcs (X, Y):
+def lgcs (X, Y):
     tempX = copy.copy(X)
     tempY = copy.copy(Y)
     # insert dumb values to align list to index 1 as start index
@@ -21,25 +21,34 @@ def lcs (X, Y):
 
     # define a matrix c of len(X) rows and len(Y) columns and
     # intialize all elements to 0
-    c = define_lcs_matrix(len(tempX), len(tempY))
+    c = define_lgcs_matrix(len(tempX), len(tempY))
     m = len(tempX)
     n = len(tempY)
 
+    # remember that the range(from, to) function generates
+    # all the number from "from" INCLUDED and "to" ESCLUDED
+    max_ = 0
     for i in range(1, m):
+        xi = tempX[i]
         for j in range(1, n):
-
-            xi = tempX[i]
             yj = tempY[j]
-            if xi == yj:
-                c[i][j] = 1 + c[i - 1][j - 1]
+            if xi != yj:
+                c[i][j] = 0
             else:
-                c[i][j] = max(c[i - 1][j], c[i][j - 1])
-
-    print draw_matrix(c)
-
-    return c[m - 1][n - 1]
+                temp = 0
+                for s in range(1, i):
+                    xs = tempX[s]
+                    for t in range(1, j):
+                        yt = tempY[t]
+                        if xs < xi and temp < c[s][t]:
+                            temp = c[s][t]
+                c[i][j] = 1 + temp
+            if max_ < c[i][j]:
+                max_ = c[i][j]
+    print(draw_matrix(c))
+    return max_
 
 if __name__ == "__main__":
     print("This is a libray, load it as a module:\n\
-            import lcs as l\n\
+            import lgcs as l\n\
             l.lcs(Seq1, Seq2)")
