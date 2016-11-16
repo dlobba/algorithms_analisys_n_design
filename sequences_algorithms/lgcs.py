@@ -26,7 +26,7 @@ def lgcs (X, Y):
     n = len(tempY)
 
     # remember that the range(from, to) function generates
-    # all the number from "from" INCLUDED and "to" ESCLUDED
+    # all the number from "from" INCLUDED and "to" EXCLUDED
     max_ = 0
     for i in range(1, m):
         xi = tempX[i]
